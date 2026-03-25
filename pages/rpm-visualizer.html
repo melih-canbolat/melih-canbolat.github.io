@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RPM Visualizer</title>
+    <style>
+    /* CSS */
+    /* :root defines CSS custom properties (variables) that can be reused throughout the styles. */
+      :root {
+        --bg: #0a0a0c;
+        --panel: #111116;
+        --border: #1d2c3d;
+        --accent: #e8ff00;
+        --accent2: #ff4d00;
+        --text: #e0e0e8;
+        --muted: #879685;
+        --glow: rgba(232, 255, 0, 0.15);
+        --glow-hot: rgba(255, 77, 0, 0.2);
+      }
+
+      /* Styles for the body element, which is the main container of the page. */
+      body {
+        background: var(--bg);
+        color: var(--text);
+        font-family: 'Share Tech Mono', monospace;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 24px;
+        overflow-x: hidden;
+      }
+
+      /* Styles for the main heading h1 */
+      h1 {
+        font-family: 'Bebas Neue', sans-serif;
+        font-size: clamp(2.5rem, 6vw, 4.5rem);
+        letter-spacing: 0.15em;
+        color: var(--accent);
+        text-shadow: 0 0 30px var(--glow), 0 0 60px var(--glow);
+        margin-bottom: 3px;
+      }
+
+      /* Styles for the subtitle class */
+      .subtitle {
+        font-size: 0.7rem;
+        letter-spacing: 0.1em;
+        color: var(--muted);
+        margin-bottom: 15px;
+        text-transform: uppercase;
+      }
+
+      /* .layout is a container class for the main content sections */
+      .layout {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+        width: 100%;
+        max-width: 720px;
+      }
+
+      /* .bar-wrap styles the container for the canvas and RPM display */
+      .bar-wrap {
+        background: var(--panel);
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        padding: 10px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 24px;
+      }
+
+      /* .canvas-frame is the container for the canvas element */
+      .canvas-frame {
+        position: relative;
+        width: 50%;
+        aspect-ratio: 1 / 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      /* Styles for the canvas element with id 'bar' */
+      canvas#bar { display: block; } /* Makes canvas a block element */
+
+      /* .controls styles the container for input controls and stats */
+      .controls {
+        background: var(--panel);
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        padding: 28px;
+        display: flex;
+        flex-direction: column;
+        gap: 28px;
+      }
+
+      /* .input-row arranges input and label horizontally */
+      .input-row { display: flex; align-items: center; gap: 10px; }
+
+      /* Styles for number input fields */
+      input[type="number"] {
+        background: var(--bg);
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        color: var(--accent);
+        font-family: 'Bebas Neue', sans-serif;
+        font-size: 3.0rem;
+        letter-spacing: 0.05em;
+        width: 120px;
+        padding: 6px 12px;
+        outline: none;
+        transition: border-color 0.2s, box-shadow 0.2s;
+        appearance: textfield;
+      }
+      /* Hide the spinner buttons in webkit browsers */
+      input[type="number"]::-webkit-inner-spin-button,
+      input[type="number"]::-webkit-outer-spin-button { -webkit-appearance: none; }
+      /* Focus state for the input */
+      input[type="number"]:focus {
+        border-color: var(--accent); /* Change border color on focus */
+        box-shadow: 0 0 0 2px var(--glow), inset 0 0 12px rgba(232,255,0,0.04); /* Glow effect */
+      }
+
+      /* .rpm-unit styles the "RPM" text next to the input */
+      .rpm-unit {
+        font-family: 'Bebas Neue', sans-serif;
+        font-size: 1.5rem;
+        letter-spacing: 0.15em;
+        color: var(--muted);
+      }
+
+      /* Styles for range input (slider) */
+      input[type="range"] {
+        appearance: none;
+        width: 100%;
+        height: 10px;
+        background: var(--border);
+        border-radius: 3px;
+        outline: none;
+        cursor: pointer;
+      }
+      /* Custom styling for the slider thumb in webkit browsers */
+      input[type="range"]::-webkit-slider-thumb {
+        -webkit-appearance: none; /* Remove default appearance */
+        width: 18px; height: 18px; /* Size */
+        border-radius: 50%; /* Circular */
+        background: var(--accent); /* Accent color */
+        box-shadow: 0 0 10px var(--glow), 0 0 20px var(--glow); /* Glow effect */
+        transition: transform 0.1s; /* Smooth scale transition */
+      }
+      /* Hover effect for the thumb */
+      input[type="range"]::-webkit-slider-thumb:hover { transform: scale(1.3); }
+      /* Firefox slider thumb */
+      input[type="range"]::-moz-range-thumb {
+        width: 18px; height: 18px; /* Size */
+        border-radius: 50%; /* Circular */
+        background: var(--accent); /* Accent color */
+        border: none; /* No border */
+      }
+
+      /* .slider-ticks displays tick marks below the slider */
+      .slider-ticks {
+        display: flex; /* Flexbox for horizontal layout */
+        justify-content: space-between; /* Space evenly */
+        margin-top: 5px; /* Space above */
+      }
+      /* Styles for the tick mark spans */
+      .slider-ticks span { font-size: 0.9rem; color: var(--muted); letter-spacing: 0.15em; }
+
+      /* .stats-grid arranges stat cells in a 2-column grid */
+      .stats-grid {
+        display: grid; /* CSS Grid layout */
+        grid-template-columns: 1fr 1fr; /* Two equal columns */
+        gap: 6px; /* Gap between cells */
+      }
+      /* .stat-cell styles each individual stat display */
+      .stat-cell {
+        display: flex; /* Flexbox */
+        flex-direction: column; /* Vertical layout */
+        gap: 5px;
+        padding: 10px 12px;
+        background: var(--bg);
+        border-left: 2px solid var(--border);
+        transition: border-color 0.3s;
+      }
+      /* Active state for stat cells (when RPM > 0) */
+      .stat-cell.active { border-left-color: var(--accent); }
+      /* .stat-key styles the stat labels (e.g., "PERIOD") */
+      .stat-key { font-size: 0.58rem; letter-spacing: 0.2em; color: var(--muted); }
+      /* .stat-val styles the stat values */
+      .stat-val { font-size: 0.9rem; color: var(--text); }
+
+      /* Media query for small screens */
+      @media (max-width: 560px) {
+        .stats-grid { grid-template-columns: 1fr; } /* Single column on mobile */
+        .canvas-frame { height: 160px; } /* Smaller canvas height on mobile */
+      }
+    </style>
+  </head>
+
+
+<!-- The body -->
+  <body>
+    <h1>RPM</h1>
+    <p class="subtitle">Revolutions Per Minute &mdash; Visualizer</p>
+
+    <!-- Main layout container -->
+    <div class="layout">
+      
+      <!-- Bar visualization section -->
+      <div class="bar-wrap">
+        <div class="canvas-frame">
+          <canvas id="bar"></canvas> <!-- Canvas for drawing the rotating bar -->
+        </div>
+      </div>
+
+      <!-- Controls section -->
+      <div class="controls">
+
+        <!-- RPM input field -->
+        <div>
+          <div class="input-row">
+            <input type="number" id="rpmInput" min="0" max="1000" value="0"> 
+            <span class="rpm-unit">RPM</span>
+          </div>
+        </div>
+
+        <!-- Slider control -->
+        <div>
+          <input type="range" id="rpmSlider" min="0" max="120" value="0" step="1"> <!-- Slider is limited to 120 for better control, but number input can go up to 1000 -->
+          <div class="slider-ticks">
+            <span>0</span><span>30</span><span>60</span><span>90</span><span>120</span>
+          </div>
+        </div>
+
+        <!-- Statistics grid -->
+        <div class="stats-grid">
+          <!-- Period stat -->
+          <div class="stat-cell" id="cellPeriod">
+            <span class="stat-key">PERIOD</span>
+            <span class="stat-val" id="periodVal">—</span>
+          </div>
+          <!-- Frequency stat -->
+          <div class="stat-cell" id="cellFreq">
+            <span class="stat-key">FREQUENCY</span>
+            <span class="stat-val" id="freqVal">—</span>
+          </div>
+          <!-- Angular velocity stat -->
+          <div class="stat-cell" id="cellRad">
+            <span class="stat-key">RAD / SEC</span>
+            <span class="stat-val" id="radVal">—</span>
+          </div>
+          <!-- Degrees per second stat -->
+          <div class="stat-cell" id="cellDeg">
+            <span class="stat-key">DEG / SEC</span>
+            <span class="stat-val" id="degVal">—</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script>
+    // Get references to HTML elements
+    const canvas     = document.getElementById('bar'); // The canvas for drawing
+    const ctx        = canvas.getContext('2d'); // 2D drawing context
+    const rpmInput   = document.getElementById('rpmInput'); // Number input for RPM
+    const rpmSlider  = document.getElementById('rpmSlider'); // Range slider for RPM
+    const periodVal  = document.getElementById('periodVal'); // Period value display
+    const freqVal    = document.getElementById('freqVal'); // Frequency value display
+    const radVal     = document.getElementById('radVal'); // Angular velocity display
+    const degVal     = document.getElementById('degVal'); // Degrees per second display
+
+    // Constants
+    const MAX_RPM = 1000; // Maximum allowed RPM
+
+    // Variables
+    let currentRPM = 0; // Current RPM value
+    let angle = 0; // Current rotation angle for the bar
+    let lastTime = null; // Last timestamp for animation
+
+    // Function to resize the canvas to match its container
+    function sizeCanvas() {
+      const frame = canvas.parentElement; // Get the parent element (.canvas-frame)
+      canvas.width  = frame.clientWidth; // Set canvas width
+      canvas.height = frame.clientHeight; // Set canvas height
+    }
+    // Listen for window resize events and resize the canvas
+    window.addEventListener('resize', sizeCanvas);
+    sizeCanvas(); // Initial sizing
+
+    // Function to set the RPM value and update UI
+    function setRPM(val) {
+      val = Math.max(0, Math.min(MAX_RPM, Math.round(val))); // Clamp value between 0 and max RPM
+      currentRPM = val; // Update current RPM
+      rpmInput.value  = val; // Update number input
+      rpmSlider.value = val; // Update slider
+      updateStats(val); // Update statistics display
+    }
+
+    // Function to update the statistics based on RPM
+    function updateStats(rpm) {
+      const isActive = rpm > 0; // Check if RPM is greater than 0
+
+      const cellIds = ['cellPeriod','cellFreq','cellRad','cellDeg']; // IDs of stat cells
+
+      if (!isActive) { // If RPM is 0, show dashes and reset classes
+        periodVal.textContent = '—';
+        freqVal.textContent   = '—';
+        degVal.textContent    = '—';
+        radVal.textContent   = '—';
+        cellIds.forEach(id => document.getElementById(id).className = 'stat-cell'); // Reset to base class
+        return;
+      }
+
+      const rps = rpm / 60; // Revolutions per second
+      periodVal.textContent = (1 / rps).toFixed(3) + ' s'; // Period in seconds
+      freqVal.textContent   = rps.toFixed(3) + ' Hz'; // Frequency in Hz
+      degVal.textContent    = (rpm * 6).toLocaleString() + ' °/s'; // Degrees per second
+      radVal.textContent    = (rpm * Math.PI / 30).toFixed(3) + ' rad/s'; // Radians per second
+
+      cellIds.forEach(id => document.getElementById(id).className = 'stat-cell active'); // Apply class
+    }
+
+    // Event listeners for user input
+    rpmInput.addEventListener('input',  () => setRPM(parseInt(rpmInput.value)  || 0)); // When number input changes
+    rpmSlider.addEventListener('input', () => setRPM(parseInt(rpmSlider.value) || 0)); // When slider changes
+
+    /* Helper function to draw a rounded rectangle (fallback for older browsers) */
+    function rr(ctx, x, y, w, h, r) {
+      if (ctx.roundRect) { ctx.roundRect(x, y, w, h, r); return; } // Use native if available
+      ctx.moveTo(x + r, y); // Start drawing the path
+      ctx.lineTo(x + w - r, y);   ctx.quadraticCurveTo(x + w, y,     x + w, y + r);
+      ctx.lineTo(x + w, y + h-r); ctx.quadraticCurveTo(x + w, y + h, x+w-r, y+h);
+      ctx.lineTo(x + r, y + h);   ctx.quadraticCurveTo(x,     y + h, x,     y+h-r);
+      ctx.lineTo(x, y + r);       ctx.quadraticCurveTo(x,     y,     x + r, y);
+      ctx.closePath(); // Close the path
+    }
+
+    /* Main animation loop function */
+    function draw(ts) { // ts is timestamp from requestAnimationFrame
+      if (!lastTime) lastTime = ts; // Initialize lastTime
+      const dt = Math.min((ts - lastTime) / 1000, 0.05); // Delta time, capped at 0.05s
+      lastTime = ts; // Update lastTime
+
+      const rpm = currentRPM; // Get current RPM
+      angle = (angle + rpm * 6 * dt) % 360; // Update rotation angle (RPM * 6 = degrees per second)
+
+      const W  = canvas.width; // Canvas width
+      const H  = canvas.height; // Canvas height
+      const cx = W / 2; // Center X
+      const cy = H / 2; // Center Y
+
+      const BAR_W = Math.min(W * 0.75, 360); // Bar width, max 360px
+      const BAR_H = Math.min(H * 0.20, 30); // Bar height, max 30px
+      const hw = BAR_W / 2; // Half width
+      const hh = BAR_H / 2; // Half height
+
+      const accentC = '#e8ff00'; // Accent color
+      const glowC   = 'rgba(232,255,0,0.16)'; // Glow color
+
+      ctx.clearRect(0, 0, W, H); // Clear the canvas
+
+      /* Draw ambient halo background */
+      const halo = ctx.createRadialGradient(cx, cy, 2, cx, cy, BAR_W * 0.6); // Radial gradient
+      halo.addColorStop(0, glowC); // Center color
+      halo.addColorStop(1, 'transparent'); // Edge transparent
+      ctx.fillStyle = halo;
+      ctx.fillRect(0, 0, W, H); // Fill canvas with halo
+
+      /* Draw the main rotating bar */
+      ctx.save(); // Save canvas state
+      ctx.translate(cx, cy); // Move to center
+      ctx.rotate(angle * Math.PI / 180); // Rotate by angle
+
+      /* Draw bar track (background) */
+      ctx.beginPath(); rr(ctx, -hw, -hh, BAR_W, BAR_H, 20); // Rounded rectangle path
+      ctx.fillStyle = '#14141c'; // Dark fill
+      ctx.fill(); // Fill the track
+
+      /* Draw rim/highlight */
+      ctx.beginPath(); rr(ctx, -hw, -hh, BAR_W, BAR_H, 20); // Same path
+      ctx.lineWidth   = 2.5;
+      ctx.strokeStyle = accentC;
+      ctx.globalAlpha = 0.7;
+      ctx.stroke();
+      ctx.globalAlpha = 1;
+
+      /* Draw pivot dot at center */
+      ctx.beginPath();
+      ctx.arc(0, 0, 5.5, 0, Math.PI * 2); // Circle at origin
+      ctx.fillStyle  = accentC;
+      ctx.shadowColor = accentC;
+      ctx.shadowBlur  = 14;
+      ctx.fill();
+      ctx.shadowBlur  = 0;
+
+      /* Draw inner hub ring */
+      ctx.beginPath();
+      ctx.arc(0, 0, 10, 0, Math.PI * 2); // Larger circle
+      ctx.lineWidth   = 1.5;
+      ctx.strokeStyle = accentC;
+      ctx.globalAlpha = 0.35;
+      ctx.stroke();
+      ctx.globalAlpha = 1;
+
+      ctx.restore(); // Restore canvas state
+
+      requestAnimationFrame(draw); // Schedule next frame
+    }
+
+    requestAnimationFrame(draw); // Start the animation loop
+    updateStats(0); // Initialize stats display
+    </script>
+  </body>
+
+</html>
