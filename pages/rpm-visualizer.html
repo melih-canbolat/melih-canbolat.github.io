@@ -107,9 +107,9 @@
         border-radius: 10px;
         color: var(--accent);
         font-family: 'Bebas Neue', sans-serif;
-        font-size: 3.0rem;
+        font-size: 2.0rem;
         letter-spacing: 0.05em;
-        width: 120px;
+        width: 75px;
         padding: 6px 12px;
         outline: none;
         transition: border-color 0.2s, box-shadow 0.2s;
@@ -161,15 +161,6 @@
         border: none; /* No border */
       }
 
-      /* .slider-ticks displays tick marks below the slider */
-      .slider-ticks {
-        display: flex; /* Flexbox for horizontal layout */
-        justify-content: space-between; /* Space evenly */
-        margin-top: 5px; /* Space above */
-      }
-      /* Styles for the tick mark spans */
-      .slider-ticks span { font-size: 0.9rem; color: var(--muted); letter-spacing: 0.15em; }
-
       /* .stats-grid arranges stat cells in a 2-column grid */
       .stats-grid {
         display: grid; /* CSS Grid layout */
@@ -181,7 +172,7 @@
         display: flex; /* Flexbox */
         flex-direction: column; /* Vertical layout */
         gap: 5px;
-        padding: 10px 12px;
+        padding: 7px 7px 7px 7px;
         background: var(--bg);
         border-left: 2px solid var(--border);
         transition: border-color 0.3s;
@@ -194,7 +185,7 @@
       .stat-val { font-size: 0.9rem; color: var(--text); }
 
       /* Media query for small screens */
-      @media (max-width: 560px) {
+      @media (max-width: 360px) {
         .stats-grid { grid-template-columns: 1fr; } /* Single column on mobile */
         .canvas-frame { height: 160px; } /* Smaller canvas height on mobile */
       }
@@ -230,10 +221,7 @@
 
         <!-- Slider control -->
         <div>
-          <input type="range" id="rpmSlider" min="0" max="120" value="0" step="1"> <!-- Slider is limited to 120 for better control, but number input can go up to 1000 -->
-          <div class="slider-ticks">
-            <span>0</span><span>30</span><span>60</span><span>90</span><span>120</span>
-          </div>
+          <input type="range" id="rpmSlider" min="0" max="120" value="0" step="1">
         </div>
 
         <!-- Statistics grid -->
