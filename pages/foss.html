@@ -3,99 +3,171 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Best FOSS - Melih Canbolat</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css@2/out/water.css">
+    <meta name="description" content="Free and open source software recommendations.">
+    <title>FOSS Recommendations | Melih Canbolat</title>
+    <link rel="stylesheet" href="../assets/css/main.css">
 </head>
 <body>
 
-<header>
-    <h1>Best Free and Open Source Software</h1>
-</header>
+    <header class="site-header">
+        <div class="container">
+            <div class="site-header__content">
+                <h1 class="site-title"><a href="../index.html" style="color: inherit; text-decoration: none;">Melih Canbolat</a></h1>
+                <p class="site-tagline">PhD Student in Robotics - Mobile Navigation · SLAM · Odometry</p>
+                <nav class="site-nav" aria-label="Main navigation">
+                    <ul class="site-nav__list">
+                        <li><a href="../index.html#about" class="site-nav__link">About</a></li>
+                        <li><a href="../index.html#research" class="site-nav__link">Research</a></li>
+                        <li><a href="../index.html#projects" class="site-nav__link">Projects</a></li>
+                        <li><a href="../index.html#skills" class="site-nav__link">Skills</a></li>
+                        <li><a href="foss.html" class="site-nav__link" aria-current="page">FOSS</a></li>
+                        <li><a href="rpm-visualizer.html" class="site-nav__link">Tools</a></li>
+                        <li><a href="https://github.com/melih-canbolat" class="site-nav__link" target="_blank" rel="noopener">GitHub</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
 
-<main>
-    <p>Here are the best free and open source tools I use, organized by category:</p>
+    <main>
+        <div class="container">
 
-    <h2>Development</h2>
-    <ul>
-        <li><a href="https://git-scm.com/" target="_blank" rel="noopener noreferrer">Git</a> - distributed version control system.</li>
-        <li><a href="https://code.visualstudio.com/" target="_blank" rel="noopener noreferrer">Visual Studio Code</a> - extensible code editor.</li>
-        <li><a href="https://jupyter.org/" target="_blank" rel="noopener noreferrer">Jupyter</a> - interactive notebooks.</li>
-    </ul>
+            <section class="section">
+                <h2 class="section__title">Free and Open Source Software</h2>
 
-    <h2>Robotics & Simulation</h2>
-    <ul>
-        <li><a href="https://www.ros.org/" target="_blank" rel="noopener noreferrer">ROS</a> - robotics middleware framework.</li>
-        <li><a href="https://cyberbotics.com/" target="_blank" rel="noopener noreferrer">Webots</a> - robot simulation software.</li>
-        <li><a href="https://developer.nvidia.com/isaac/sim" target="_blank" rel="noopener noreferrer">NVIDIA Isaac Sim</a> - high-fidelity robotics simulator based on Omniverse for photorealistic and physics-accurate environments.</li>
-        <li><a href="https://gazebosim.org/" target="_blank" rel="noopener noreferrer">Gazebo</a> - 3D robotics simulator.</li>
-    </ul>
+                <!-- Development -->
+                <article class="card">
+                    <h3 class="card__title">Development</h3>
+                    <ul class="list-unstyled">
+                        <li class="mb-sm">
+                            <strong><a href="https://git-scm.com/" target="_blank" rel="noopener">Git</a></strong> — 
+                            Distributed version control. Essential for research reproducibility.
+                        </li>
+                        <li class="mb-sm">
+                            <strong><a href="https://code.visualstudio.com/" target="_blank" rel="noopener">VS Code</a></strong> — 
+                            Extensible editor with excellent C++, Python, and ROS support.
+                        </li>
+                        <li class="mb-sm">
+                            <strong><a href="https://jupyter.org/" target="_blank" rel="noopener">Jupyter</a></strong> — 
+                            Interactive notebooks for data analysis and algorithm prototyping.
+                        </li>
+                    </ul>
+                </article>
 
-    <h2>CAD & Engineering</h2>
-    <ul>
-        <li><a href="https://www.freecad.org/" target="_blank" rel="noopener noreferrer">FreeCAD</a> - parametric 3D CAD modeler.</li>
-        <li><a href="https://librecad.org/" target="_blank" rel="noopener noreferrer">LibreCAD</a> - 2D CAD application.</li>
-    </ul>
+                <!-- Robotics & Simulation -->
+                <article class="card">
+                    <h3 class="card__title">Robotics & Simulation</h3>
+                    <ul class="list-unstyled">
+                        <li class="mb-sm">
+                            <strong><a href="https://www.ros.org/" target="_blank" rel="noopener">ROS / ROS2</a></strong> — 
+                            Industry-standard robotics middleware. Modular, distributed architecture.
+                        </li>
+                        <li class="mb-sm">
+                            <strong><a href="https://gazebosim.org/" target="_blank" rel="noopener">Gazebo</a></strong> — 
+                            3D robotics simulator with physics engines (ODE, Bullet, DART).
+                        </li>
+                        <li class="mb-sm">
+                            <strong><a href="https://cyberbotics.com/" target="_blank" rel="noopener">Webots</a></strong> — 
+                            Robot simulation with accurate physics and sensor models.
+                        </li>
+                        <li class="mb-sm">
+                            <strong><a href="https://developer.nvidia.com/isaac/sim" target="_blank" rel="noopener">NVIDIA Isaac Sim</a></strong> — 
+                            High-fidelity simulation on Omniverse for photorealistic environments.
+                        </li>
+                    </ul>
+                </article>
 
-    <h2>Graphics & Design</h2>
-    <ul>
-        <li><a href="https://www.gimp.org/" target="_blank" rel="noopener noreferrer">GIMP</a> - image editor.</li>
-        <li><a href="https://inkscape.org/" target="_blank" rel="noopener noreferrer">Inkscape</a> - vector graphics editor.</li>
-        <li><a href="https://www.blender.org/" target="_blank" rel="noopener noreferrer">Blender</a> - 3D creation suite.</li>
-        <li><a href="https://www.pinta-project.com/" target="_blank" rel="noopener noreferrer">Pinta</a> - simple, open-source image editor inspired by Paint.NET.</li>
-    </ul>
+                <!-- CAD & Engineering -->
+                <article class="card">
+                    <h3 class="card__title">CAD & Engineering</h3>
+                    <ul class="list-unstyled">
+                        <li class="mb-sm">
+                            <strong><a href="https://www.freecad.org/" target="_blank" rel="noopener">FreeCAD</a></strong> — 
+                            Parametric 3D CAD modeler. Scriptable with Python.
+                        </li>
+                        <li class="mb-sm">
+                            <strong><a href="https://librecad.org/" target="_blank" rel="noopener">LibreCAD</a></strong> — 
+                            2D CAD for technical drawings and schematics.
+                        </li>
+                    </ul>
+                </article>
 
-        <h2>Media</h2>
-    <ul>
-        <li><a href="https://www.videolan.org/vlc/" target="_blank" rel="noopener noreferrer">VLC</a> - media player.</li>
-        <li><a href="https://shotcut.org/" target="_blank" rel="noopener noreferrer">Shotcut</a> - video editor.</li>
-        <li><a href="https://github.com/mifi/lossless-cut" target="_blank" rel="noopener noreferrer">LosslessCut</a> - fast video trimming without re-encoding.</li>
-        <li><a href="https://www.audacityteam.org/" target="_blank" rel="noopener noreferrer">Audacity</a> - audio recording and editing.</li>
-        <li><a href="https://obsproject.com/" target="_blank" rel="noopener noreferrer">OBS Studio</a> - video streaming and recording.</li>
-    </ul>
+                <!-- Graphics & Design -->
+                <article class="card">
+                    <h3 class="card__title">Graphics & Design</h3>
+                    <ul class="list-unstyled">
+                        <li class="mb-sm">
+                            <strong><a href="https://www.blender.org/" target="_blank" rel="noopener">Blender</a></strong> — 
+                            3D creation suite. Excellent for robot visualization and rendering.
+                        </li>
+                        <li class="mb-sm">
+                            <strong><a href="https://www.gimp.org/" target="_blank" rel="noopener">GIMP</a></strong> — 
+                            Image manipulation for figures and documentation.
+                        </li>
+                        <li class="mb-sm">
+                            <strong><a href="https://inkscape.org/" target="_blank" rel="noopener">Inkscape</a></strong> — 
+                            Vector graphics for diagrams and publication figures.
+                        </li>
+                    </ul>
+                </article>
 
-    <h2>Office & Productivity</h2>
-    <ul>
-        <li><a href="https://www.libreoffice.org/" target="_blank" rel="noopener noreferrer">LibreOffice</a> - office suite.</li>
-        <li><a href="https://www.zotero.org/" target="_blank" rel="noopener noreferrer">Zotero</a> - reference management tool.</li>
-        <li><a href="https://okular.kde.org/" target="_blank" rel="noopener noreferrer">Okular</a> - document viewer (PDF, EPUB, etc.).</li>
-    </ul>
+                <!-- Scientific Computing -->
+                <article class="card">
+                    <h3 class="card__title">Scientific Computing</h3>
+                    <ul class="list-unstyled">
+                        <li class="mb-sm">
+                            <strong><a href="https://www.octave.org/" target="_blank" rel="noopener">GNU Octave</a></strong> — 
+                            MATLAB-compatible numerical computing.
+                        </li>
+                        <li class="mb-sm">
+                            <strong><a href="https://www.paraview.org/" target="_blank" rel="noopener">ParaView</a></strong> — 
+                            Large-scale data visualization for simulation results.
+                        </li>
+                        <li class="mb-sm">
+                            <strong><a href="https://www.zotero.org/" target="_blank" rel="noopener">Zotero</a></strong> — 
+                            Reference management for research papers.
+                        </li>
+                    </ul>
+                </article>
 
-    <h2>Scientific & Engineering</h2>
-    <ul>
-        <li><a href="https://www.octave.org/" target="_blank" rel="noopener noreferrer">GNU Octave</a> - MATLAB-like numerical computing environment.</li>
-        <li><a href="https://www.scilab.org/" target="_blank" rel="noopener noreferrer">Scilab</a> - numerical computation platform.</li>
-        <li><a href="https://www.paraview.org/" target="_blank" rel="noopener noreferrer">ParaView</a> - scientific data visualization.</li>
-    </ul>
+                <!-- Containers & Virtualization -->
+                <article class="card">
+                    <h3 class="card__title">Containers & Virtualization</h3>
+                    <ul class="list-unstyled">
+                        <li class="mb-sm">
+                            <strong><a href="https://www.docker.com/" target="_blank" rel="noopener">Docker</a></strong> — 
+                            Containerization for reproducible research environments.
+                        </li>
+                        <li class="mb-sm">
+                            <strong><a href="https://www.virtualbox.org/" target="_blank" rel="noopener">VirtualBox</a></strong> — 
+                            Virtualization for testing and legacy system support.
+                        </li>
+                    </ul>
+                </article>
 
-    <h2>Networking & Browsers</h2>
-    <ul>
-        <li><a href="https://www.mozilla.org/firefox/" target="_blank" rel="noopener noreferrer">Firefox</a> - open-source web browser.</li>
-        <li><a href="https://www.torproject.org/" target="_blank" rel="noopener noreferrer">Tor Browser</a> - privacy-focused browsing.</li>
-        <li><a href="https://remmina.org/" target="_blank" rel="noopener noreferrer">Remmina</a> - remote desktop client.</li>
-        <li><a href="https://www.qbittorrent.org/" target="_blank" rel="noopener noreferrer">qBittorrent</a> - lightweight and open-source BitTorrent client.</li>
-    </ul>
+                <!-- Terminal & Shell -->
+                <article class="card">
+                    <h3 class="card__title">Terminal & Shell</h3>
+                    <ul class="list-unstyled">
+                        <li class="mb-sm">
+                            <strong><a href="https://github.com/tmux/tmux" target="_blank" rel="noopener">tmux</a></strong> — 
+                            Terminal multiplexer for persistent remote sessions.
+                        </li>
+                    </ul>
+                </article>
+            </section>
 
-    <h2>Containers & Virtualization</h2>
-    <ul>
-        <li><a href="https://www.docker.com/" target="_blank" rel="noopener noreferrer">Docker</a> - containerization platform.</li>
-        <li><a href="https://www.virtualbox.org/" target="_blank" rel="noopener noreferrer">VirtualBox</a> - virtualization software.</li>
-    </ul>
+        </div>
+    </main>
 
-    <h2>Terminal & Shell Tools</h2>
-    <ul>
-        <li><a href="https://github.com/tmux/tmux" target="_blank" rel="noopener noreferrer">tmux</a> - terminal multiplexer.</li>
-    </ul>
-
-    <h2>Security & Encryption</h2>
-    <ul>
-        <li><a href="https://www.veracrypt.fr/" target="_blank" rel="noopener noreferrer">VeraCrypt</a> - disk encryption software.</li>
-    </ul>
-
-</main>
-
-<footer>
-    <p>&copy; 2026 Melih Canbolat</p>
-</footer>
+    <footer class="site-footer">
+        <div class="container">
+            <div class="site-footer__content">
+                <p>&copy; 2026 Melih Canbolat</p>
+                <p class="text-small text-subtle">Built with minimal HTML & CSS. No frameworks, no bloat.</p>
+            </div>
+        </div>
+    </footer>
 
 </body>
 </html>
